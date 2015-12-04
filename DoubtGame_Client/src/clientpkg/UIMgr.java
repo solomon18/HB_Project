@@ -54,12 +54,27 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 		initButton();
 		buttons = paintBtn(buttons);
 		
+//		  String[] text = {"but1", "but2", "but3"};
+//		  
+//		        JButton[] button = new JButton[text.length];
+//		  
+//		        for(int i = 0; i < button.length(); ++i) {
+//		 
+//		            button[i] = new JButton(text[i]);
+//		 
+//		            button[i].addActionListener(new MyListener(i));
+//		 
+//		            panel.add(button[i]);
+		  
+
+		        }
+
 		rdyBtn.addActionListener(new ActionListnerManager());
 		doubtBtn.addActionListener(new ActionListnerManager());
 		nextBtn.addActionListener(new ActionListnerManager());
 		prevBtn.addActionListener(new ActionListnerManager());
 		
-			public void actionPerformed(ActionEvent e)
+			/*public void actionPerformed(ActionEvent e)
             {
 				if(e.getSource()==rdyBtn){
 					comm.sendTo(packet.Ready + playerInfo.getId());
@@ -94,7 +109,7 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 					currPlayersDeck = paintDeck(currPlayersDeck, "currentPlayer", buttonCnt);
 					System.out.println(buttonCnt);
 	            }
-		}  
+		}  */
 		
 		doubtBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
