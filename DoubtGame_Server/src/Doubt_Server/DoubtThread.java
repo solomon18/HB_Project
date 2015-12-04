@@ -29,6 +29,7 @@ public class DoubtThread extends Thread implements PacketNumber{
 	public DoubtThread(Socket socket) {
 		this.socket = socket;
 		System.out.println("소켓 생생됨  " + socket);
+		user[0] = new DoubtUser();
 		user[1] = new DoubtUser();
 		user[2] = new DoubtUser();
 		user[3] = new DoubtUser();
@@ -97,7 +98,7 @@ public class DoubtThread extends Thread implements PacketNumber{
 				
 				broadcast.sendToOthers(this, packet.Enter + userName);
 //				broadcast.sendToAll(packet.Connect + broadcast.getNames());
-				broadcast.sendTo(userCount, packet.Connect + user[userCount].getId() + "|" + user[userCount].getPass());
+				broadcast.sendTo(userCount, packet.Connect + user[userCount].getId());
 				calculation.GameInit();					// test용
 				calculation.DivideCard(userCount);		// test용
 				
@@ -109,12 +110,16 @@ public class DoubtThread extends Thread implements PacketNumber{
 		userName = msg.substring(4);
 		System.out.println(userName);
 		for(int i = 0; i < packet.MAX_USER; i++){
-			if(user[i] != null){
-				if(user[i].getId() == userName)
+			if(true){
+				System.out.println(user[i]);
+				if(user[i].getId().equals(userName))
 					user[i].setReady(true);
+					System.out.println(user[i].getId() + userName);
+					System.out.println(user[i].getReady());
+					userCount++;
 			}
-			if(user[i].getReady()==true)
-				userCount++;
+//			if(user[i].getReady()==true)
+//				userCount++;
 		}
 		
 		System.out.println("현재 카운트 : " + userCount);

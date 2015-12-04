@@ -62,26 +62,10 @@ public class Calculation implements PacketNumber {
 				for(int j = 0; j < 14; j++){
 					temp[j] = Card[j];
 				}
-				user[z] = new DoubtUser();
-				user[z].setCard(Card);
+//				user[z] = new DoubtUser();
+				user[z].setCard(temp);
 			}
-//				for(int j = 0; j < 14; j++){
-//					temp[j] = Card[j];
-//				}
-//				user[1] = new DoubtUser();
-//				user[1].setCard(Card);
-//				for(int j = 0; j < 14; j++){
-//					temp[j] = Card[j];
-//				}
-//				user[2] = new DoubtUser();
-//				user[2].setCard(Card);
-//				for(int j = 0; j < 14; j++){
-//					temp[j] = Card[j];
-//				}
-//				user[3] = new DoubtUser();
-//				user[3].setCard(Card);
-//			
-//			user[i].setCard(temp);
+			System.out.println(user[i]);
 			broadcast.sendToObject(user[i], i);
 	}
 	

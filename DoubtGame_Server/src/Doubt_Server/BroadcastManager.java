@@ -106,17 +106,17 @@ public class BroadcastManager  extends Vector{
 		
 	}
 	void sendToObject(DoubtUser doubtuser, int i){
-		OutputStream oStream = null;
-		ObjectOutputStream oos = null;
+//		OutputStream oStream = null;
+//		ObjectOutputStream oos = null;
 		try {
 			oStream = getSocket(i).getOutputStream();
-			oos = new ObjectOutputStream(oStream);
-			oos.writeObject(doubtuser);
+			ooStream = new ObjectOutputStream(oStream);
+			ooStream.writeObject(doubtuser);
 			System.out.println(doubtuser);
 		} catch (IOException e) {
 			e.printStackTrace();
 			try {
-				oos.close();
+				ooStream.close();
 				oStream.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
