@@ -28,8 +28,8 @@ public class ComponentFactory {
 	DoubtUser user;
 	int[] card;
 	ImageIcon cardImgArr[];
-	String PATH = "c:\\images\\cards\\";
-	String bckCard = "c:\\images\\cards\\";
+	String PATH = "";
+	String bckCard = "";
 	Communicate comm = new Communicate();
 	PacketNumber packet;
 
@@ -40,7 +40,7 @@ public class ComponentFactory {
 		ButtonRow3 = new ArrayList<JButton>();
 		this.card = user.getCard();
 		initComponents(userT);
-		currPlayerCard0.addActionListener(new ActionListener() {
+		/*currPlayerCard0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("´­·È´Ù!");
@@ -137,7 +137,7 @@ public class ComponentFactory {
 				System.out.println("´­·È´Ù!");
 				comm.sendTo(packet.Drop + user.getId());
 			}
-		});
+		});*/
 	}
 
 	public void initComponents(String userType) {
@@ -297,7 +297,7 @@ public class ComponentFactory {
 
 	}
 
-	public ArrayList<JLabel> getLables() {
+	public ArrayList<JLabel> getLabels() {
 		return this.labels;
 	}
 

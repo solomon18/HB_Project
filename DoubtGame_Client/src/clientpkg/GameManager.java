@@ -27,7 +27,7 @@ public class GameManager implements PacketNumber, Runnable {
 	InputStream iStream;
 	ObjectInputStream oiStream ;
 	String tempid = "";
-	GameManager() {}
+	//GameManager() {}
 	public GameManager(String temp) {
 		new Thread(this).start();
 		this.tempid = temp;
