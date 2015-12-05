@@ -6,6 +6,6 @@ public class Client  {
 		// Launch Doubt Game 
 		System.out.println("Launching Doubt Client..");
 		
-		GameManager mgr = new GameManager("qwer");
+//		GameManager mgr = new GameManager("qwer");
 	}
 }

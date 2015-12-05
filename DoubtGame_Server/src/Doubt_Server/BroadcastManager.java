@@ -14,6 +14,7 @@ import Shared.DoubtUser;
 public class BroadcastManager  extends Vector{
 	OutputStream oStream ;
 	ObjectOutputStream ooStream;
+//	DoubtUser player[] = new DoubtUser[4]; 
 	public BroadcastManager() {}
 
 	public void sendToAll(String msg) {
@@ -31,7 +32,14 @@ public class BroadcastManager  extends Vector{
 			e.printStackTrace();
 		}
 	}
-
+	void sendToUser(DoubtThread dt, String msg){				// 자기를 제외한 유저에게 보내는 메시지
+		for (int i=0; i<size(); i++){
+			if (getDT(i) == dt){
+				sendTo(i, msg);
+			}
+		}
+	}
+		
 	public Socket getSocket(int i) {
 		return getDT(i).getSocket();
 	}
@@ -74,13 +82,7 @@ public class BroadcastManager  extends Vector{
 			}
 		}
 	}
-	String getNames(){											// 현재 접속된 스레드의 이름을 가져옴.
-		StringBuffer sb = new StringBuffer("[PLAYERS]");
-		for (int i=0; i<size(); i++){
-			sb.append(getDT(i).getUserName(i) + "\t");
-		}
-		return sb.toString();
-	}
+
 	void sendToObject(DoubtUser doubtuser, DoubtThread doubtThread){				// 플레이어 객체를 클라이언트에게 전송
 		try {
 //			oStream = doubtThread.getSocket().getOutputStream();
@@ -112,7 +114,7 @@ public class BroadcastManager  extends Vector{
 			oStream = getSocket(i).getOutputStream();
 			ooStream = new ObjectOutputStream(oStream);
 			ooStream.writeObject(doubtuser);
-			System.out.println(doubtuser);
+//			System.out.println(doubtuser);
 		} catch (IOException e) {
 			e.printStackTrace();
 			try {

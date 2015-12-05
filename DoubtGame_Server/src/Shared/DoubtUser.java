@@ -3,6 +3,7 @@ package Shared;
 import java.io.Serializable;
 import java.util.Arrays;
 
+@SuppressWarnings("serial")
 public class DoubtUser implements Serializable, Cloneable {
 	private String id;
 	private String pass;
@@ -17,21 +18,7 @@ public class DoubtUser implements Serializable, Cloneable {
 	public DoubtUser() {
 		// TODO Auto-generated constructor stub
 	}
-	public DoubtUser(DoubtUser user) {
-		setId(user.getId());
-		setPass(user.getPass());
-		setWin(user.getWin());
-		setLose(user.getLose());
-		setCardback(user.getCardback());
-		int temp[] = new int[52];
-		for(int i = 0; i < temp.length; i++){
-			temp[i] = user.getCard()[i];
-		}
-		setCardCount(user.getCardCount());
-		setPlaying(user.getPlaying());
-		setReady(user.getReady());
-		setMyTurnNum(user.getMyTurnNum());
-	}
+	
 	public String getId() {
 		return id;
 	}
@@ -100,6 +87,17 @@ public class DoubtUser implements Serializable, Cloneable {
 	}
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		return super.clone();
+		DoubtUser imsi = (DoubtUser)super.clone();
+		imsi.id = this.id;
+		imsi.pass = this.pass;
+		imsi.win = this.win;
+		imsi.lose = this.lose;
+		imsi.Cardback = this.Cardback;
+		imsi.Card = this.Card;
+		imsi.CardCount = this.CardCount;
+		imsi.Ready = this.Ready;
+		imsi.MyTurnNum = this.MyTurnNum;
+		imsi.Playing = this.Playing;
+		return imsi;
 	}
 }
