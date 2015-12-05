@@ -1,0 +1,5 @@
+package clientpkg;
+
+public class Card {
+
+}
