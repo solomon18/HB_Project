@@ -20,13 +20,16 @@ public class UIMgr extends JFrame implements PacketNumber{
 	private ArrayList<JLabel> player3 = new ArrayList<JLabel> ();
 	private ArrayList<JButton> buttons = new ArrayList<JButton> ();
 			JButton		rdyBtn, nextBtn, prevBtn, doubtBtn;
+			JButton		card1, card2, card3, card4, card5, card6;
 			static int buttonCnt = 0;
-			ComponentFactory	makeComponents;
-			LabelFactory	makeLabels;
-			DoubtUser		playerInfo;
-			int[]			card;
-			PacketNumber	packet;
-			String 			name;
+			ComponentFactory		makeComponents;
+			LabelFactory			makeLabels;
+			DoubtUser				playerInfo;
+			int[]					card;
+			PacketNumber			packet;
+			String 					name;
+			ButtonType				btnType;
+			ActionListnerManager	actionMgr;
 	
 	public UIMgr(DoubtUser user) {
 		System.out.println("I'm in UIMgr");
@@ -34,7 +37,6 @@ public class UIMgr extends JFrame implements PacketNumber{
 		setBackground(new Color(0, 51, 0));
 		getContentPane().setLayout(null);
 		
-				
 		try {
 			this.playerInfo = (DoubtUser)user.clone();
 			card = playerInfo.getCard();
@@ -43,7 +45,6 @@ public class UIMgr extends JFrame implements PacketNumber{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 			
 		if (card == null) {
 			currPlayersDeck = paintDeck(currPlayersDeck, "NULL");	
@@ -78,7 +79,9 @@ public class UIMgr extends JFrame implements PacketNumber{
             {
 				buttonCnt++;	
 				currPlayersDeck = repaintDeck(currPlayersDeck, "currentPlayer", buttonCnt);
-				
+				for(int i = 0; i < currPlayersDeck.size(); i++) {
+					
+				}
 				System.out.println(buttonCnt);
                 if(buttonCnt >= 0 && buttonCnt < 2){
                 	nextBtn.setEnabled(true);
@@ -102,6 +105,9 @@ public class UIMgr extends JFrame implements PacketNumber{
             }
         });     
 		
+		for(JButton eachCard : currPlayersDeck) {
+			eachCard.addActionListener(actionMgr);
+		}
 		
 		System.out.println("I'm in UIMgr");
 		draw();
@@ -141,6 +147,7 @@ public class UIMgr extends JFrame implements PacketNumber{
 		}
 		return thisLabels;
 	}
+	
 	public ArrayList<JButton> repaintDeck(ArrayList<JButton> thisLabels, String labelType, int eventCount) {
 		this.makeComponents = new ComponentFactory(this.playerInfo, labelType);
 		thisLabels = makeComponents.getButtons(eventCount);
@@ -157,6 +164,7 @@ public class UIMgr extends JFrame implements PacketNumber{
 		}
 		return thisLabels;
 	}
+	
 	public ArrayList<JLabel> paintothDeck(ArrayList<JLabel> thisLabels, String labelType) {
 		this.makeLabels = new LabelFactory(this.playerInfo, labelType);
 		thisLabels = makeLabels.getLabels();
@@ -182,6 +190,7 @@ public class UIMgr extends JFrame implements PacketNumber{
 		}
 		return thisLabels;
 	}
+	
 	public ArrayList<JLabel> repaintothDeck(ArrayList<JLabel> thisLabels, String labelType, int eventCount) {
 		this.makeLabels = new LabelFactory(this.playerInfo, labelType);
 		thisLabels = makeLabels.getLabels(eventCount);
@@ -198,6 +207,7 @@ public class UIMgr extends JFrame implements PacketNumber{
 		}
 		return thisLabels;
 	}
+	
 	public ArrayList<JButton> paintBtn(ArrayList<JButton> thisButtons) {
 		thisButtons = getButtons();
 		for(JButton eachBtn : thisButtons) {
@@ -215,6 +225,10 @@ public class UIMgr extends JFrame implements PacketNumber{
 		buttons.add(prevBtn);
 		nextBtn = createJButton(478, "Next");
 		buttons.add(nextBtn);
+	}
+	
+	public void setButtons() {
+		
 	}
 	
 	public ArrayList<JButton> getButtons() {
