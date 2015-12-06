@@ -50,7 +50,7 @@ public class DoubtDao extends SuperDao{
 	}
 	
 	// 카드 드롭. 내역 업데이트해서 db에 저장
-	public int UpdateDeck(String id, int i) {
+	public int UpdateDeck(String id, int[] i) {
 		String sql = " update cardinfo set cardindex = ? ";
 		sql+=" where id = ?";
 		
@@ -65,7 +65,9 @@ public class DoubtDao extends SuperDao{
 			pstmt.setString(2, this.getUser(id).getId());
 			
 			super.conn.setAutoCommit(false);
-			cnt = pstmt.executeUpdate();
+			for(int j = 0; j < i.length; j++){
+				cnt = pstmt.executeUpdate();
+			}
 			super.conn.commit();
 			
 		} catch (SQLException e) {
