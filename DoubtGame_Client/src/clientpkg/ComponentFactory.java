@@ -2,6 +2,9 @@ package clientpkg;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.Socket;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -30,114 +33,159 @@ public class ComponentFactory {
 	ImageIcon cardImgArr[];
 	String PATH = "";
 	String bckCard = "";
-	Communicate comm = new Communicate();
+	Communicate comm;
 	PacketNumber packet;
+	Socket		socket;
 
-	ComponentFactory(DoubtUser user, String userT) {
+	ComponentFactory(DoubtUser user, String userT, Socket socket) {
 		labels = new ArrayList<JLabel>();
 		ButtonRow1 = new ArrayList<JButton>();
 		ButtonRow2 = new ArrayList<JButton>();
 		ButtonRow3 = new ArrayList<JButton>();
+		this.socket = socket;
 		this.card = user.getCard();
+		comm = new Communicate(this.socket);
 		initComponents(userT);
-		/*currPlayerCard0.addActionListener(new ActionListener() {
+		currPlayerCard0.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard0.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard1.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard2.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard3.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard4.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard5.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard5.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard6.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard7.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard7.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard8.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard8.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard9.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard9.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard10.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard10.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard11.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard11.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard12.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard12.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
 		});
 		currPlayerCard13.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String temp = "";
 				System.out.println("´­·È´Ù!");
-				comm.sendTo(packet.Drop + user.getId());
+				temp = currPlayerCard13.getIcon().toString().replaceAll("[^0-9]", "");
+				System.out.println(temp);
+				comm.sendTo(packet.Drop  + ":" + user.getId() + ":" + temp);
 			}
-		});*/
+		});
 	}
 
 	public void initComponents(String userType) {

@@ -37,7 +37,7 @@ public class Communicate implements PacketNumber{
 
 	public void sendTo(String msg) {
 		try {
-			pw = new PrintWriter(socket.getOutputStream(), true);
+			pw = new PrintWriter(this.socket.getOutputStream(), true);
 			pw.println(msg);
 			System.out.println(msg);
 			System.out.println("Sent successful");

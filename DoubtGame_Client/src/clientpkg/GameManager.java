@@ -28,11 +28,9 @@ public class GameManager implements PacketNumber, Runnable {
 	ObjectInputStream oiStream ;
 	Communicate comm;
 	String tempid = "";
-	//GameManager() {}
 	public GameManager(String temp, Socket socket) {
-//		this.socket = socket;
 		comm = new Communicate(socket);
-		
+		this.socket = socket;
 		this.tempid = temp;
 		try {
 			reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -55,7 +53,7 @@ public class GameManager implements PacketNumber, Runnable {
     				System.out.println("yes!!");
     				if (msg.startsWith(packet.Connect)) {
     					playerInfo = comm.setUser();
-    					this.uiMgr = new UIMgr(this.playerInfo);
+    					this.uiMgr = new UIMgr(this.playerInfo, this.socket);
     				}else if(msg.startsWith(packet.MSG)){
     					JOptionPane.showMessageDialog(null,msg.substring(4));
     				}else if(msg.startsWith(packet.Enter)){
