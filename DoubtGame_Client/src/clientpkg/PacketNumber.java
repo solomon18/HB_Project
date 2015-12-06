@@ -6,7 +6,7 @@ abstract public interface PacketNumber {
 	static final int 	MAX_USER 		= 4;
 	static final int 	totalCard 		= 52;
 	static final int 	totalBuffer	= 10000;
-	static final String hostName = "192.168.10.84";
+	static final String hostName = "210.178.154.240";
 	static final int 	portNumber = 6000;
 	static final String Start 		= "1000";
 	static final String Ready 		= "1001";
@@ -27,5 +27,6 @@ abstract public interface PacketNumber {
 	static final String Create		= "1016";
 	static final String Edit		= "1017";
 	static final String Reset		= "1018";
+	static final String Login		= "1019";
 	Communicate		comm = new Communicate();
 }

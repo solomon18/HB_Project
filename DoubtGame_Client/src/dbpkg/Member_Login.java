@@ -96,12 +96,13 @@ class LoginSwing extends JFrame implements ActionListener{
 		    
 		    if(id.equals(dto.getId()) && pw.equals(dto.getPw())){
 		    	JOptionPane.showMessageDialog(null, "로그인에 성공하였습니다.");
-		    	new GameManager(dto.getId()); 
+//		    	new GameManager(dto.getId()); 
 		    	this.setVisible(false);
 		    }else
 		    	JOptionPane.showMessageDialog(null, "로그인에 실패하였습니다.");
 		    
 		}
+		
 		if(e.getSource() == btnjoin ) { new MemberProc(this);}
 		
 		if(e.getSource() == btnedit ) {
@@ -111,8 +112,7 @@ class LoginSwing extends JFrame implements ActionListener{
 		    try{
 		    	while(id.equals("")){
 		    		id = JOptionPane.showInputDialog(this, "변경할 아이디를 적어주세요");
-				    MemberProc mem = new MemberProc(id, this);
-				    
+				    MemberProc mem = new MemberProc(id, this);			    
 		    	}
 		    	
 
@@ -121,6 +121,7 @@ class LoginSwing extends JFrame implements ActionListener{
 		    	System.exit(0);
 		    }
 		}
+		
 		
 		if(e.getSource() == btnadmin ) {
 			String id = "";
@@ -138,6 +139,8 @@ class LoginSwing extends JFrame implements ActionListener{
 				System.exit(0);
 			}
 		}
+		
+		
 	}
 }
 	

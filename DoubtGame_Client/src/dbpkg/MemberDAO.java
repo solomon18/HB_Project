@@ -3,9 +3,13 @@ package dbpkg;
 
 
 import java.sql.*;
-
 import java.util.Vector;
+
 import javax.swing.table.DefaultTableModel;
+
+import clientpkg.Communicate;
+import clientpkg.Member_List;
+import clientpkg.PacketNumber;
 
 //DB 처리
 public class MemberDAO {
@@ -38,7 +42,10 @@ public class MemberDAO {
         }
         return con;
     }
-
+    
+	Communicate comm = new Communicate();
+	PacketNumber packet;
+	
     /**한사람의 회원 정보를 얻는 메소드*/
     public MemberDTO getMemberDTO(String id){
 
@@ -62,12 +69,13 @@ public class MemberDAO {
                 dto.setWinnum(rs.getInt("win"));
                 dto.setLosenum(rs.getInt("lose"));
             }
+//            comm.sendTo(packet.GetUser + user.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }       
         return dto;
     }
-
+	
     /**멤버리스트 출력*/
 
 
@@ -147,7 +155,7 @@ public class MemberDAO {
         }catch(Exception e){
             e.printStackTrace();
         }
-
+//        comm.sendTo(packet.Create + user.getId());
         return ok;
 
     }//insertMmeber
@@ -177,6 +185,7 @@ public class MemberDAO {
             // 1~n: 성공 , 0 : 실패
 
             if(r>0) ok = true; //수정이 성공되면 ok값을 true로 변경
+//            comm.sendTo(packet.Edit + user.getId());
 
         }catch(Exception e){
             e.printStackTrace();
@@ -214,6 +223,8 @@ public class MemberDAO {
             System.out.println(e + "-> 오류발생");
         }       
         return ok;
+//        comm.sendTo(packet.DeleteUser + user.getId());
+
     }
 
     /**DB데이터 다시 불러오기*/    

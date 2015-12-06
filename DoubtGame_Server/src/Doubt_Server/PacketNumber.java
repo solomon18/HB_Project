@@ -6,7 +6,8 @@ abstract public interface PacketNumber {
 	static final BroadcastManager broadcast = new BroadcastManager();					// 클라이언트에게 방송해주는 객체 (Vector 상속)
 	static final DoubtDao 		dao	= new DoubtDao();
 	static final int MAX_USER 		= 4;
-	DoubtUser user[] = new DoubtUser[MAX_USER];
+	Calculation		calculation = new Calculation();			//
+//	DoubtUser user[] = new DoubtUser[MAX_USER];
 	static final int totalCard 		= 52;
 	static final int totalBuffer	= 10000;
 	static final String Start 		= "1000";
@@ -29,4 +30,5 @@ abstract public interface PacketNumber {
 	static final String Edit		= "1017";
 	static final String Reset		= "1018";
 	static final String Login		= "1019";
+	
 }

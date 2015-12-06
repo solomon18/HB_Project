@@ -5,7 +5,6 @@ import java.awt.Container;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
@@ -14,18 +13,20 @@ import java.util.ArrayList;
 
 import Shared.DoubtUser;
 
-public class UIMgr extends JFrame implements PacketNumber, ActionListener{
+public class UIMgr extends JFrame implements PacketNumber{
 	private ArrayList<JButton> currPlayersDeck = new ArrayList<JButton> ();
 	private ArrayList<JLabel> player1 = new ArrayList<JLabel> ();
 	private ArrayList<JLabel> player2 = new ArrayList<JLabel> ();
 	private ArrayList<JLabel> player3 = new ArrayList<JLabel> ();
 	private ArrayList<JButton> buttons = new ArrayList<JButton> ();
-			JButton				rdyBtn, nextBtn, prevBtn, doubtBtn;
-			static int 			buttonCnt = 0;
+			JButton		rdyBtn, nextBtn, prevBtn, doubtBtn;
+			static int buttonCnt = 0;
 			ComponentFactory	makeComponents;
-			DoubtUser			playerInfo;
-			int[]				card;
-			PacketNumber		packet;
+			LabelFactory	makeLabels;
+			DoubtUser		playerInfo;
+			int[]			card;
+			PacketNumber	packet;
+			String 			name;
 	
 	public UIMgr(DoubtUser user) {
 		System.out.println("I'm in UIMgr");
@@ -33,8 +34,9 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 		setBackground(new Color(0, 51, 0));
 		getContentPane().setLayout(null);
 		
-		this.playerInfo = user;
+				
 		try {
+			this.playerInfo = (DoubtUser)user.clone();
 			card = playerInfo.getCard();
 			for(int i = 0; i < card.length; i++)
 				System.out.println(card[i]);
@@ -42,6 +44,7 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 			e.printStackTrace();
 		}
 		
+			
 		if (card == null) {
 			currPlayersDeck = paintDeck(currPlayersDeck, "NULL");	
 		} else if (card != null){	
@@ -54,62 +57,13 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 		initButton();
 		buttons = paintBtn(buttons);
 		
-//		  String[] text = {"but1", "but2", "but3"};
-//		  
-//		        JButton[] button = new JButton[text.length];
-//		  
-//		        for(int i = 0; i < button.length(); ++i) {
-//		 
-//		            button[i] = new JButton(text[i]);
-//		 
-//		            button[i].addActionListener(new MyListener(i));
-//		 
-//		            panel.add(button[i]);
-		  
-
-		        }
-
-		rdyBtn.addActionListener(new ActionListnerManager());
-		doubtBtn.addActionListener(new ActionListnerManager());
-		nextBtn.addActionListener(new ActionListnerManager());
-		prevBtn.addActionListener(new ActionListnerManager());
-		
-			/*public void actionPerformed(ActionEvent e)
+		rdyBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
             {
-				if(e.getSource()==rdyBtn){
-					comm.sendTo(packet.Ready + playerInfo.getId());
-					System.out.println(playerInfo.getId());
-	                System.out.println("You clicked the button");
-	            }
-				
-	            if(e.getSource()==doubtBtn){
-	            	comm.sendTo(packet.Doubt + playerInfo.getId());
-	                System.out.println("You clicked the button");
-	            }
-	            
-	            if(e.getSource()==nextBtn){
-	            	buttonCnt++;	
-					currPlayersDeck = repaintDeck(currPlayersDeck, "currentPlayer", buttonCnt);
-					
-					System.out.println(buttonCnt);
-	                if(buttonCnt >= 0 && buttonCnt < 2){
-	                	nextBtn.setEnabled(true);
-	                	prevBtn.setEnabled(true);
-	                } else
-	                	nextBtn.setEnabled(false);
-	            			
-	            }
-	            
-	            if(e.getSource()==prevBtn){
-	            	buttonCnt--;
-					if(buttonCnt > 0)
-	                	nextBtn.setEnabled(true);
-					else if(buttonCnt <= 0)
-	                	prevBtn.setEnabled(false);
-					currPlayersDeck = paintDeck(currPlayersDeck, "currentPlayer", buttonCnt);
-					System.out.println(buttonCnt);
-	            }
-		}  */
+				comm.sendTo(packet.Ready + playerInfo.getId());
+                System.out.println("You clicked the button");
+            }
+        });  
 		
 		doubtBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
@@ -147,6 +101,7 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 
             }
         });     
+		
 		
 		System.out.println("I'm in UIMgr");
 		draw();
@@ -203,8 +158,8 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 		return thisLabels;
 	}
 	public ArrayList<JLabel> paintothDeck(ArrayList<JLabel> thisLabels, String labelType) {
-		this.makeComponents = new ComponentFactory(this.playerInfo, labelType);
-		thisLabels = makeComponents.getLabels();
+		this.makeLabels = new LabelFactory(this.playerInfo, labelType);
+		thisLabels = makeLabels.getLabels();
 		for(JLabel eachLabel : thisLabels) {
 			getContentPane().add(eachLabel);
 		}
@@ -212,8 +167,8 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 	}
 	
 	public ArrayList<JLabel> paintothDeck(ArrayList<JLabel> thisLabels, String labelType, int eventCount) {
-		this.makeComponents = new ComponentFactory(this.playerInfo, labelType);
-		thisLabels = makeComponents.getLabels();
+		this.makeLabels = new LabelFactory(this.playerInfo, labelType);
+		thisLabels = makeLabels.getLabels(eventCount);
 		Container ct = this.getContentPane();
 		ct.removeAll();
 		for(JLabel eachLabel : thisLabels) {
@@ -228,8 +183,8 @@ public class UIMgr extends JFrame implements PacketNumber, ActionListener{
 		return thisLabels;
 	}
 	public ArrayList<JLabel> repaintothDeck(ArrayList<JLabel> thisLabels, String labelType, int eventCount) {
-		this.makeComponents = new ComponentFactory(this.playerInfo, labelType);
-		thisLabels = makeComponents.getLabels();
+		this.makeLabels = new LabelFactory(this.playerInfo, labelType);
+		thisLabels = makeLabels.getLabels(eventCount);
 		Container ct = this.getContentPane();
 		ct.removeAll();
 		for(JLabel eachLabel : thisLabels) {

@@ -29,7 +29,7 @@ public class DoubtDao extends SuperDao{
 				user.setWin(rs.getInt("win"));
 				user.setLose(rs.getInt("lose"));
 				user.setCardback(rs.getString("cardback"));
-				System.out.println(user);
+//				System.out.println(user);
 			}
 			
 		} catch (SQLException e) {
@@ -191,8 +191,8 @@ public class DoubtDao extends SuperDao{
 	
 	// 유저 1명 데이터 생성하기
 	public int createUser(String userId, String userPw, String userCardImage) {
-		String sql = "  insert into userinfo( id, pw, winnum, losenum, cardback )";
-        sql += " values( ?, ?, default, default, default )";
+		String sql = "  insert into userinfo( id, pass, cardback )";
+        sql += " values( ?, ?, ? )";
         
         int cnt = -1;
         
@@ -202,9 +202,7 @@ public class DoubtDao extends SuperDao{
 			pstmt = super.conn.prepareStatement(sql);
 			pstmt.setString(1, userId);
 			pstmt.setString(2, userPw);
-//			pstmt.setInt(3, user.getWin());
-//			pstmt.setInt(4, user.getLose());
-//			pstmt.setString(5, user.getCardback());
+			pstmt.setString(3, userCardImage);
 			
 			super.conn.setAutoCommit(false);
 			cnt = pstmt.executeUpdate();

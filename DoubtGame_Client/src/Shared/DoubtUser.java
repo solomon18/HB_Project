@@ -3,7 +3,8 @@ package Shared;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class DoubtUser implements Serializable {
+@SuppressWarnings("serial")
+public class DoubtUser implements Serializable, Cloneable {
 	private String id;
 	private String pass;
 	private int win;
@@ -14,6 +15,10 @@ public class DoubtUser implements Serializable {
 	private Boolean Playing = true;
 	private Boolean Ready = false;
 	private int MyTurnNum = 0;
+	public DoubtUser() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -79,5 +84,20 @@ public class DoubtUser implements Serializable {
 		return "DoubtUser [id=" + id + ", pass=" + pass + ", win=" + win + ", lose=" + lose + ", Cardback=" + Cardback
 				+ ", Card=" + Arrays.toString(Card) + ", CardCount=" + CardCount + ", Playing=" + Playing + ", Ready="
 				+ Ready + ", MyTurnNum=" + MyTurnNum + "]";
+	}
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		DoubtUser imsi = (DoubtUser)super.clone();
+		imsi.id = this.id;
+		imsi.pass = this.pass;
+		imsi.win = this.win;
+		imsi.lose = this.lose;
+		imsi.Cardback = this.Cardback;
+		imsi.Card = this.Card;
+		imsi.CardCount = this.CardCount;
+		imsi.Ready = this.Ready;
+		imsi.MyTurnNum = this.MyTurnNum;
+		imsi.Playing = this.Playing;
+		return imsi;
 	}
 }
