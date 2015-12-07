@@ -109,25 +109,27 @@ public class DoubtThread extends Thread implements PacketNumber{
 		userName = msg.substring(4);
 		System.out.println(userName);
 		
-		player.setReady(true);
-		System.out.println(player.getId() + userName);
-		System.out.println(player.getReady());
-					readyCount++;
-		
-//			if(user[i].getReady()==true)
-//				userCount++;
-		
-		
-		System.out.println("현재 카운트 : " + readyCount);
-		broadcast.sendToAll(MSG + userName + "님 준비완료! <Server>");
-		if (readyCount == 4){
-			broadcast.sendToAll("게임을 시작합니다.");
-//			calculation.GameInit();											// 게임초기화
+		if(player.getReady() == false){
+			player.setReady(true);
+			System.out.println(player.getId() + userName);
+			System.out.println(player.getReady());
+			readyCount = broadcast.size();
 			
-			NowPlayer = 0;													// 게임시작은 0번부터
-//			calculation.DivideCard();
-			broadcast.sendToAll(MSG + player.getId() + "님 차례입니다. <Server>");
-			broadcast.sendTo(NowPlayer, Start);
+	//			if(user[i].getReady()==true)
+	//				userCount++;
+			
+			
+			System.out.println("현재 카운트 : " + readyCount);
+			broadcast.sendToAll(MSG + userName + "님 준비완료! <Server>");
+			if (readyCount == 4){
+				broadcast.sendToAll("게임을 시작합니다.");
+	//			calculation.GameInit();											// 게임초기화
+				
+//				NowPlayer = 0;													// 게임시작은 0번부터
+	//			calculation.DivideCard();
+				broadcast.sendToAll(MSG + calculation.send0player() + "님 차례입니다. <Server>");
+				broadcast.sendTo(NowPlayer, Start);
+			}
 		}
 	}
 	private void NoReady(String msg) {										// 레디를 해제한 경우

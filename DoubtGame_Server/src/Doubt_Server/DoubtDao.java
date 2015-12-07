@@ -36,46 +36,39 @@ public class DoubtDao extends SuperDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-//		} finally{
-//			try{
-//				if(rs!=null){rs.close();}
-//				if(pstmt!=null){rs.close();}
+		} finally{
+			try{
+				if(rs!=null){rs.close();}
+				if(pstmt!=null){rs.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			}catch(Exception e){
-//				e.printStackTrace();
-//			}
-//			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		}
 		return user;
 	}
 	
 	// 카드 드롭. 내역 업데이트해서 db에 저장
-<<<<<<< HEAD
-	public int UpdateDeck(String id, int i) {
-=======
 	public int UpdateDeck(String id, int[] i) {
->>>>>>> b82b8f65473a04cecae9d7ca6dfeb8d5aaec52aa
 		String sql = " update cardinfo set cardindex = ? ";
-		sql+=" where id = ?";
+		sql+=" where id = ? and deckindex = ?";
 		
 		int cnt = -1;
 		
 		PreparedStatement pstmt = null;
-		
+		this.resetDeck(id);
 		try {
-			pstmt = super.conn.prepareStatement(sql);
-			
-			pstmt.setInt(1, this.getUser(id).getCard().length);
-			pstmt.setString(2, this.getUser(id).getId());
-			
 			super.conn.setAutoCommit(false);
-<<<<<<< HEAD
-			cnt = pstmt.executeUpdate();
-=======
-			for(int j = 0; j < i.length; j++){
+			for(int j = 1; j < i.length; j++){
+				pstmt = super.conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, i[j]);
+				pstmt.setString(2, this.getUser(id).getId());
+				pstmt.setInt(3, j);
+				
 				cnt = pstmt.executeUpdate();
 			}
->>>>>>> b82b8f65473a04cecae9d7ca6dfeb8d5aaec52aa
 			super.conn.commit();
 			
 		} catch (SQLException e) {
@@ -86,31 +79,35 @@ public class DoubtDao extends SuperDao{
 				return -1;
 			}
 			e.printStackTrace();
-//		} finally{
-//			try{
-//				if(pstmt != null){pstmt.close();}
+		} finally{
+			try{
+				if(pstmt != null){pstmt.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return cnt;
 	}
 	
 	// 유저가 52장 덱을 서버로부터 받으면 db에 저장
-	public int[] getCarddeck() {
-		String sql = " insert into cardinfo(player, cardindex)";
-		sql += " values(?, default)";
+	public int[] getCarddeck(DoubtUser player) {
+		String sql = " select * from cardinfo where id = ? and deckindex = ? ";
 		int cnt[] = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			pstmt = super.conn.prepareStatement(sql);
-			pstmt.setString(1, this.getUser(id).getId());
-			pstmt.setInt(2, this.getUser(id).getCard().length);
-			
 			super.conn.setAutoCommit(false);
-			for(int i=0; i<this.getUser(id).getCard().length; i++){
-				cnt[i]  = pstmt.executeUpdate();
+			for(int i = 1; i < player.getCard().length; i++){
+				
+				pstmt.setString(1, id);
+				pstmt.setInt(2, i);
+				
+				rs  = pstmt.executeQuery();
+				while(rs.next()){
+					cnt[i] = rs.getInt("cardindex");
+				}
 			}
 			
 			super.conn.commit();
@@ -123,20 +120,20 @@ public class DoubtDao extends SuperDao{
 				return null;
 			}
 			e.printStackTrace();
-//		} finally{
-//			try{
-//				if(pstmt != null){pstmt.close();}
+		} finally{
+			try{
+				if(pstmt != null){pstmt.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return cnt;
 	}
 	
 	// 플레잉 cardinfo db에 저장된 데이터 삭제.
 	public int deleteDeckCard(String id, int playerDropedCard) {
-		String sql = " delete from cardifo where id=? ";
+		String sql = " delete from cardinfo where id= ? ";
 		int cnt =  -1;
 		PreparedStatement pstmt = null;
 		try {
@@ -144,6 +141,7 @@ public class DoubtDao extends SuperDao{
 			pstmt.setString(1, id);
 			cnt = pstmt.executeUpdate();
 			
+			super.conn.setAutoCommit(false);
 			super.conn.commit();
 			
 		} catch (SQLException e) {
@@ -154,28 +152,29 @@ public class DoubtDao extends SuperDao{
 				return -1;
 			}
 			e.printStackTrace();
-//		} finally{
-//			try{
-//				if(pstmt != null){pstmt.close();}
+		} finally{
+			try{
+				if(pstmt != null){pstmt.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return cnt;
 	}
 	
 	// 게임 종료. 덱 초기화. 
 	public int resetDeck(String id) {
-		String sql = " delete from cardifo where id = ?";
+		String sql = " delete from cardinfo where id = ? ";
 		int cnt = -1;
 		PreparedStatement pstmt = null;
 		
 		try {
 			pstmt = super.conn.prepareStatement(sql);
-			for(int i = 1; i<5; i++){
-				pstmt.setString(i, id);
-			}
+			
+			super.conn.setAutoCommit(false);
+			pstmt.setString(1, id);
+			
 			cnt = pstmt.executeUpdate();
 			
 			super.conn.commit();
@@ -188,13 +187,13 @@ public class DoubtDao extends SuperDao{
 				return -1;
 			}
 			e.printStackTrace();
-//		} finally {
-//			try{
-//				if(pstmt != null){pstmt.close();}
+		} finally {
+			try{
+				if(pstmt != null){pstmt.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			}catch(SQLException e){
-//				e.printStackTrace();
-//			}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 		return cnt;
 	}
@@ -226,20 +225,52 @@ public class DoubtDao extends SuperDao{
 				return -1;
 			}
 			e.printStackTrace();
-//		} finally {
-//			try{
-//				if(pstmt != null){pstmt.close();}
+		} finally {
+			try{
+				if(pstmt != null){pstmt.close();}
 //				if(super.conn != null){super.closeConnection();}
-//			}catch(SQLException e){
-//				e.printStackTrace();
-//			}
+			}catch(SQLException e){
+				e.printStackTrace();
+			}
 		}
 		return cnt;
 		
 	}
 
-	public void UpdateUser(DoubtUser user2) {
-		
-	}	
+	public int createUserDeck(DoubtUser player) {
+		String sql = "for i in 1..52 loop ";
+		sql+= " insert into cardinfo(id, deckindex, cardindex) values( ?, doubtseq.nextval, default) ";
+		sql+= "end loop ";
+	        PreparedStatement pstmt = null;
+	        int cnt = -1;
+	        try {
+	        	super.conn.setAutoCommit(false);
+//	        	for(int i = 1; i < player.getCard().length; i ++){
+					pstmt = super.conn.prepareStatement(sql);
+					pstmt.setString(1, player.getId());
+					
+					cnt = pstmt.executeUpdate();
+//	        	}
+				super.conn.commit();
+				
+			} catch (SQLException e) {
+				try {
+					super.conn.rollback();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				e.printStackTrace();
+			} finally {
+				try{
+					if(pstmt != null){pstmt.close();}
+//					if(super.conn != null){super.closeConnection();}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+	        return cnt;
+	}
+
+	
 
 }
